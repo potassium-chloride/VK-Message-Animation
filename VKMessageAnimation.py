@@ -67,13 +67,11 @@ animationtext2=[
 def animate(peer,animation,mid=0,loop=False,timeout=1):
 	if(type(peer)!=str):peer=str(peer)
 	if(mid==0):mid=sendMsg(peer,animation[0])
+	if(timeout>0.33):time.sleep(timeout-0.33)
 	c=1
-	isCaptcha=False
 	while(loop or c<len(animation)):
-		if(not isCaptcha and timeout>0.33):time.sleep(timeout-0.33)
 		res=editMsg(peer,mid,animation[c%len(animation)])
 		if('error' in list(res.keys())):
-			isCaptcha=True
 			csid=res['error']['captcha_sid']
 			cimg=res['error']['captcha_img']
 			bashExec("wget -O /tmp/vkcaptcha.jpg \""+cimg+"\" 2>/dev/null")
@@ -82,7 +80,7 @@ def animate(peer,animation,mid=0,loop=False,timeout=1):
 			if(len(ctext)==0):break
 			editMsg(peer,mid,animation[c%len(animation)],sid=csid,ckey=ctext)
 		else:
-			isCaptcha=False
+			if(timeout>0.33):time.sleep(timeout-0.33)
 		c+=1
 
 if __name__ == "__main__":
