@@ -64,9 +64,9 @@ animationtext2=[
 "[█████████████]"
 ]
 
-def animate(peer,animation,loop=False,timeout=1):
+def animate(peer,animation,mid=0,loop=False,timeout=1):
 	if(type(peer)!=str):peer=str(peer)
-	mid=sendMsg(peer,animation[0])
+	if(mid==0):mid=sendMsg(peer,animation[0])
 	c=1
 	isCaptcha=False
 	while(loop or c<len(animation)):
